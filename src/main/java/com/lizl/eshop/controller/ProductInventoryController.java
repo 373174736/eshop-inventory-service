@@ -43,11 +43,22 @@ public class ProductInventoryController {
         }
     }
 
-    @RequestMapping("findById")
+    @RequestMapping("/findById")
     @ResponseBody
     public ProductInventory findById(Integer id){
         try {
             return  productInventoryService.findById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ProductInventory();
+    }
+
+    @RequestMapping("/findByProductId")
+    @ResponseBody
+    public ProductInventory findByProductId(Integer productId){
+        try {
+            return  productInventoryService.findByProductId(productId);
         }catch (Exception e){
             e.printStackTrace();
         }

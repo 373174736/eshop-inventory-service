@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lizl.eshop.mapper.ProductInventoryMapper;
 import com.lizl.eshop.model.ProductInventory;
 import com.lizl.eshop.service.ProductInventoryService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -42,5 +43,18 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
 
     public ProductInventory findById(Integer id) {
         return productInventoryMapper.findById(id);
+    }
+
+    public ProductInventory findByProductId(Integer productId) {
+
+        Jedis jedis = jedisPool.getResource();
+        String dataJson = jedis.get("product_inventory_" + productId);
+        if(StringUtils.isNotEmpty(dataJson)){
+            JSONObject dataJSONObject = JSONObject.parseObject(dataJson);
+            dataJSONObject.put("id", "-1");
+            return JSONObject.parseObject(dataJSONObject.toJSONString(), ProductInventory.class);
+        }else {
+            return productInventoryMapper.findByProductId(productId);
+        }
     }
 }

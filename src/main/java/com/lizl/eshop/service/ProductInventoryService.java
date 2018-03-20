@@ -14,4 +14,6 @@ public interface ProductInventoryService {
     public void delete(Integer id);
 
     public ProductInventory findById(Integer id);
+
+    public ProductInventory findByProductId(Integer productId);
 }

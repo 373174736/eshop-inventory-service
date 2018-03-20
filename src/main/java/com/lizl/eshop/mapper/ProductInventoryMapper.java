@@ -17,4 +17,6 @@ public interface ProductInventoryMapper {
     public void delete(Integer id);
     @Select("SELECT * FROM product_inventory WHERE id=#{id}")
     public ProductInventory findById(Integer id);
+    @Select("SELECT * FROM product_inventory WHERE product_id=#{product_id} limit 1")
+    public ProductInventory findByProductId(Integer id);
 }
